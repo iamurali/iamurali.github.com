@@ -3,6 +3,7 @@ toc: true
 layout: post
 description: Template Rendering with Dynamic context
 categories: [ruby, erb, yml, templating, rails, ROR]
+permalink: /2020-08-15-dynamic-context-with-ruby/
 title: Template Rendering with Dynamic context
 ---
 # Template Rendering with Dynamic context
