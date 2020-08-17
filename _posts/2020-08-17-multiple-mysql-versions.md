@@ -4,7 +4,6 @@ layout: post
 description: Template Rendering with Dynamic context
 permalink: /2020-08-17-multiple-mysql-versions/
 categories: [mysql, database]
-image: images/mysql-connector.png
 title: Setup Multiple MySql's with homebrew in Mac local machine
 ---
 # Setup Multiple MySql's with homebrew in Mac local machine
