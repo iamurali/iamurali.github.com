@@ -4,10 +4,10 @@ title: About Me
 permalink: /about/
 ---
 
-This is where you put the contents of your *About* page. Like all your pages, it's in [Markdown](https://guides.github.com/features/mastering-markdown/) format.
+Hey there, I'm Murali Kummitha, currently working for Jifflenow as a Principle Software Engineer. I love technology and always follow the advancements in technology, especially in the topic of web apps, Machine Learning. I have a passion for designing and creating things, notably with code. When I'm not coding, I enjoy travelling to himalays. I live in Bangalore.
 
-This website is powered by **[fastpages](https://github.com/fastai/fastpages)** [^1].
+In this blog, I share things on my mind, my learnings, and my interests of all kind. Feel free to exchange ideas with me with below options:
 
-
-
-[^1]:a blogging platform that natively supports Jupyter notebooks in addition to other formats.
+- Email: [murali.kummitha@gmail.com](mailto:murali.kummitha@gmail.com)
+- LinkedIn: [https://www.linkedin.com/in/muralikummitha](https://www.linkedin.com/in/muralikummitha)
+- GitHub: [https://github.com/iamurali](https://github.com/iamurali)
