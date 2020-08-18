@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-description: Template Rendering with Dynamic context
+description: Parse the erb template string and make use of binding to encapsulate the current context for parsing.
 permalink: /2020-08-15-dynamic-context-with-ruby/
 categories: [ruby, erb, yml, templating, rails, ROR]
 image: images/erb-context.png

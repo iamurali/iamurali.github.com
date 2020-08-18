@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-description: Template Rendering with Dynamic context
+description: Install multiple versions of MySql in mac and switch back nd forth if required.
 permalink: /2020-08-17-multiple-mysql-versions/
 categories: [mysql, database]
 title: Setup Multiple MySql's with homebrew in Mac local machine
