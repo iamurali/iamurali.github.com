@@ -10,7 +10,7 @@ title: Top Engineering Blogs from Tech Companies to Follow
 Here is a list of top engineering blogs from tech companies that's worth following.
 _(in alphabetical order)_
 
-- <img src = "../images/airbnb.png" width="21px"/> [Airbnb Engineering & Data Science](https://medium.com/airbnb-engineering)
+- <img align="left" src = "../images/airbnb.png" width="21px"/> [Airbnb Engineering & Data Science](https://medium.com/airbnb-engineering)
 - <img src="../images/bitly.png" width="21px"> [Bitly Engineering Blog](https://word.bitly.com/)
 - <img src="../images/dropbox.png" width="21px"> [Dropbox Tech Blog](https://dropboxtechblog.wordpress.com/)
 - <img src="../images/etsy.png" width="21px"> [Etsy - Code as Craft](https://codeascraft.com/)
