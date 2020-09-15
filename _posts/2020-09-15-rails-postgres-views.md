@@ -16,7 +16,7 @@ While showing the report it involes the most complex logic based on role, meetin
 
 We had to expose an endpoint which gives back information in a format of attendee and respective meeting. It could be csv, excel or any other format. 
 
-- <img src = "../images/db_views_schema.png"/>
+<img src = "../images/db_views_schema.png" height="300px" width="480px"/>
 
 # Lets try heavy lifting in ruby
 
