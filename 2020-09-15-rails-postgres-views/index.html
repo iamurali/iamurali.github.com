@@ -144,9 +144,30 @@ window.onload = wrap_img;
 
   <div class="post-content e-content" itemprop="articleBody">
     <ul class="section-nav">
-<li class="toc-entry toc-h1"><a href="#rails-with-postgresql-views-by-leveraging-active-record-entity-models">Rails with postgresql views by leveraging active record entity models</a></li>
+<li class="toc-entry toc-h1"><a href="#rails-with-postgresql-views-by-leveraging-active-record-entity-models">Rails with postgresql views by leveraging active record entity models</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#problem-statement">Problem Statement</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#lets-try-heavy-lifting-in-ruby">Lets try heavy lifting in ruby</a></li>
 </ul><h1 id="rails-with-postgresql-views-by-leveraging-active-record-entity-models">
 <a class="anchor" href="#rails-with-postgresql-views-by-leveraging-active-record-entity-models" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rails with postgresql views by leveraging active record entity models</h1>
+
+<h2 id="problem-statement">
+<a class="anchor" href="#problem-statement" aria-hidden="true"><span class="octicon octicon-link"></span></a>Problem Statement</h2>
+
+<p>We had a use case where we had to generate a report in an existing meeting scheduler system. This report shows all the data of report around meeting.</p>
+
+<p>While showing the report it involes the most complex logic based on role, meetings, meeting attendees, meeting customer information, meeting notes that being captrued. There are around 20+ filters present around the reports.</p>
+
+<p>We had to expose an endpoint which gives back information in a format of attendee and respective meeting. It could be csv, excel or any other format.</p>
+
+<ul>
+  <li><img src="../images/db_views_schema.png"></li>
+</ul>
+
+<h1 id="lets-try-heavy-lifting-in-ruby">
+<a class="anchor" href="#lets-try-heavy-lifting-in-ruby" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lets try heavy lifting in ruby</h1>
 
 
   </div>
