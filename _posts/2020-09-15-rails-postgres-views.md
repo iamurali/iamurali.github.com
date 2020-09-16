@@ -18,11 +18,11 @@ We had to expose an endpoint which gives back information in a format of attende
 
 <img src = "../images/rails_db_views/db_views_schema.png" height="300px" width="480px"/>
 
-## Lets try heavy lifting in ruby
+## Initial implementation of reports in ruby
 
-Initial Existing implementation we had implemented in ruby. The naive approach will include initializing each object and associated objects to the meeting. 
+Initially we have decide to implement all reportings in ruby. The naive approach will include initializing each object and associated objects to the meeting. 
 
-This worked well initially for small amount of data. It started giving performance problems when there are more than 2K meetings and each meeting has approximately 10. Which eventually become 21K objects initialization and storing the data in-memory while processing all of them. 
+This worked well initially for small amount of data. We have encountered performance issues when there are more than 2K meetings and each meeting has approximately 10. Which eventually become 21K objects initialization and storing the data in-memory while processing all of them. 
 
 ```ruby
 Benchmark.bm { |x| x.report {
@@ -100,7 +100,7 @@ LEFT OUTER JOIN topics ON topics.id = meeting_requests.topic_id
 LEFT OUTER JOIN requestor ON requestor.uuid = meeting_requests.requestor_uuid
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We have benchmakred same format of the response format and see a major shift in the time that it takes to prepare the data to export. Please check the below report
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We have bench makred same format of the response format and see a major shift in the time that it takes to prepare the data to export. Please check the below report
 
 ```ruby
 Benchmark.bm { |x| x.report {
