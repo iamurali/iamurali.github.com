@@ -196,7 +196,9 @@ window.onload = wrap_img;
 <h2 id="working-with-postgres-views">
 <a class="anchor" href="#working-with-postgres-views" aria-hidden="true"><span class="octicon octicon-link"></span></a>Working with postgres views</h2>
 
-<p><em>                Database view is named query that provides another way to present data in the database tables. A view is defined based on one or more tables which are known as base tables. When you create a view, you basically create a query and assign it a name, therefore a view is useful for wrapping a commonly used complex query.</em></p>
+<blockquote>
+  <p><em>                Database view is named query that provides another way to present data in the database tables. A view is defined based on one or more tables which are known as base tables. When you create a view, you basically create a query and assign it a name, therefore a view is useful for wrapping a commonly used complex query.</em></p>
+</blockquote>
 
 <p>Postgres has different types of views which are present.</p>
 <ul>
@@ -205,26 +207,31 @@ window.onload = wrap_img;
 </ul>
 
 <h4 id="logical-views">
-<a class="anchor" href="#logical-views" aria-hidden="true"><span class="octicon octicon-link"></span></a>Logical Views</h4>
+<a class="anchor" href="#logical-views" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Logical Views</strong>
+</h4>
 
 <p>                They evaluate the data in the tables underlying the view definition at the time the view is queried. It is a logical view of your tables, with no data stored anywhere else.</p>
 
 <p>                The upside of a view is that it will always return the latest data to you. The downside of a view is that its performance depends on how good a select statement the view is based on. If the select statement used by the view joins many tables, or uses joins based on non-indexed columns, the view could perform poorly.</p>
 
 <h4 id="materialized-views">
-<a class="anchor" href="#materialized-views" aria-hidden="true"><span class="octicon octicon-link"></span></a>Materialized Views</h4>
+<a class="anchor" href="#materialized-views" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Materialized Views</strong>
+</h4>
 
-<p>They are similar to regular views, in that they are a logical view of your data (based on a select statement), however, the underlying query result set has been saved to a table. The upside of this is that when you query a materialized view, you are querying a table, which may also be indexed. (<a href="https://stackoverflow.com/questions/93539/what-is-the-difference-between-views-and-materialized-views-in-oracle">source</a>)</p>
-
-<p>                Given the fact that we will have lot of updates at ongoing event and meeting managers expect the reports in real time without any stale data we have decided to go with logical views thatn materialized views.</p>
+<p>They are similar to regular views, in that they are a logical view of your data (based on a select statement), however, the underlying query result set has been saved to a table. The upside of this is that when you query a materialized view, you are querying a table, which may also be indexed. (<a href="https://stackoverflow.com/questions/93539/what-is-the-difference-between-views-and-materialized-views-in-oracle">source</a>)
+<br></p>
+<blockquote>
+  <p>Given the fact that we will have lot of updates at ongoing event and meeting managers expect the reports in real time without any stale data we have decided to go with logical views that materialized views.</p>
+</blockquote>
 
 <h4 id="scenic-view">
-<a class="anchor" href="#scenic-view" aria-hidden="true"><span class="octicon octicon-link"></span></a>Scenic view</h4>
+<a class="anchor" href="#scenic-view" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Scenic view</strong>
+</h4>
 
 <p>                I have decided to go with (scenic gem)[https://github.com/scenic-views/scenic] considering convention for versioning views that keeps migration history consistent and reversible and avoids having to duplicate SQL strings across migrations</p>
 
 <ul>
-  <li>Creating a scenic view</li>
+  <li><strong>Creating a scenic view</strong></li>
 </ul>
 
 <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="err">$</span> <span class="n">rails</span> <span class="n">generate</span> <span class="n">scenic</span><span class="ss">:view</span> <span class="n">meeting</span>
