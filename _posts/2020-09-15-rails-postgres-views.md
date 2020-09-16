@@ -59,6 +59,49 @@ Postgres has different types of views which are present.
 
 They are similar to regular views, in that they are a logical view of your data (based on a select statement), however, the underlying query result set has been saved to a table. The upside of this is that when you query a materialized view, you are querying a table, which may also be indexed. ([source](https://stackoverflow.com/questions/93539/what-is-the-difference-between-views-and-materialized-views-in-oracle))
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Given the fact that we will have lot of updates at ongoing event and meeting managers expect the reports in real time without any stale data we have decided to go with logical views thatn materialized views.
+
+#### Scenic view
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I have decided to go with (scenic gem)[https://github.com/scenic-views/scenic] considering convention for versioning views that keeps migration history consistent and reversible and avoids having to duplicate SQL strings across migrations
+
+* Creating a scenic view
+
+```ruby
+ $ rails generate scenic:view meeting
+Initializing plugins...
+      create  db/views/meetings_v01.sql
+      create  db/migrate/20180916125309_create_meetings.rb
+```
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Meeting View can be used as usal active record model and levarage all the functionalities at the same isolate the SQL queries in migration. 
+
+```ruby
+# Model
+class MeetingView < ApplicationRecord
+  self.primary_key = :meeting_uuid, :invite_user_uuid
+end
+```
+
+```ruby
+# [timestamp]_create_meetings.rb
+SELECT
+  meeting_requests.id AS meeting_id,
+  meeting_requests.uuid AS meeting_uuid,
+  meeting_requests.meeting_with as meeting_with,
+  ...
+  ...
+  ...
+  FROM meeting_requests
+LEFT JOIN rooms ON rooms.id = meeting_requests.room_id
+LEFT OUTER JOIN topics ON topics.id = meeting_requests.topic_id
+    ...
+    ...
+LEFT OUTER JOIN requestor ON requestor.uuid = meeting_requests.requestor_uuid
+```
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We have benchmakred same format of the response format and see a major shift in the time that it takes to prepare the data to export. Please check the below report
+
 ```ruby
 Benchmark.bm { |x| x.report {
   meetings, te, tp, cp, pr = MeetingView.all.sort_and_grouping({}.merge({current_location: location}))
@@ -70,3 +113,11 @@ Benchmark.bm { |x| x.report {
 #    0.220000   0.000000   0.220000 (  3.059728)
 # => [#<Benchmark::Tms:0x000000002de13138 @label="", @real=3.059727756306529, @cstime=0.0, @cutime=0.0, @stime=0.0, @utime=0.22000000000002728, @total=0.22000000000002728>]
 ```
+<br />
+## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**We have gone from 780sec to 3secs**
+
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As expected, DB Views approach is **260 times faster** than the naive ruby approach. If we have proper indexes for tables on what we querying then it will be way more faster. We are in the process of establing the proper indexes and db scans while writing a scenic view so that it can improve lot more.  
+
+<br /><br />
+**I’m happy to answer any questions if there are any! HMU in the comments.**
