@@ -10,9 +10,9 @@ title: Rails with postgresql views by leveraging active record entity models
 
 ## Problem Statement
 
-We had a use case where we had to generate a report in an existing meeting scheduler system. This report shows all the data of report around meeting. 
+We had a use case where we had to generate a report in an existing meeting scheduler system. This report shows all the data of the report around the meeting. 
 
-While showing the report it involes the most complex logic based on role, meetings, meeting attendees, meeting customer information, meeting notes that being captrued. There are around 20+ filters present around the reports. 
+While showing the report it involves the most complex logic based on role, meetings, meeting attendees, meeting customer information, meeting notes that are being captured. There are around 20+ filters present around the reports. 
 
 We had to expose an endpoint which gives back information in a format of attendee and respective meeting. It could be csv, excel or any other format. 
 
@@ -20,9 +20,9 @@ We had to expose an endpoint which gives back information in a format of attende
 
 ## Lets try heavy lifting in ruby
 
-Initial Existing implementaiton we had implemented in ruby. The naive approach will include initialize each object and assoicated objects to the meeting. 
+Initial Existing implementation we had implemented in ruby. The naive approach will include initializing each object and associated objects to the meeting. 
 
-This worked well initally for small amount of data. It started giving performance problems when there are more than 2K meetings and each meeting has approximately 10. Which eventually become 21K objects initialization and storing the data in-memory while processing all of them. 
+This worked well initially for small amount of data. It started giving performance problems when there are more than 2K meetings and each meeting has approximately 10. Which eventually become 21K objects initialization and storing the data in-memory while processing all of them. 
 
 ```ruby
 Benchmark.bm { |x| x.report {
@@ -35,9 +35,9 @@ Benchmark.bm { |x| x.report {
  # => [#<Benchmark::Tms:0x000000001ba8cc88 @label="", @real=780.3038765005767, @cstime=0.0, @cutime=0.0, @stime=12.66, @utime=444.78000000000003, @total=457.44000000000005>]
 ```
 
-It takes 10 seconds to retrieve the data and to format it. In a real life scenario, we would have to account for the time needed for the request to go through all the stack, from routing to rendering the views. 10 seconds is a lot of time, specially if you have lots of requests coming.
+It takes 10 seconds to retrieve the data and to format it. In a real life scenario, we would have to account for the time needed for the request to go through all the stack, from routing to rendering the views. 10 seconds is a lot of time, especially if you have lots of requests coming.
 
-It started taking more than 60 seconds if the request is having heavy data to manipulate and request.
+It starts taking more than 60 seconds if the request is having heavy data to manipulate and request.
 
 ## Working with postgres views
 
@@ -59,7 +59,7 @@ Postgres has different types of views which are present.
 
 They are similar to regular views, in that they are a logical view of your data (based on a select statement), however, the underlying query result set has been saved to a table. The upside of this is that when you query a materialized view, you are querying a table, which may also be indexed. ([source](https://stackoverflow.com/questions/93539/what-is-the-difference-between-views-and-materialized-views-in-oracle))
 <br/>
-> Given the fact that we will have lot of updates at ongoing event and meeting managers expect the reports in real time without any stale data we have decided to go with logical views that materialized views.
+> Given the fact that we will have a lot of updates at ongoing events and meeting managers expect the reports in real time without any stale data we have decided to go with logical views than materialized views.
 
 #### **Scenic view**
 
@@ -117,7 +117,7 @@ Benchmark.bm { |x| x.report {
 ## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**We have gone from 780sec to 3secs**
 
 <br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As expected, DB Views approach is **260 times faster** than the naive ruby approach. If we have proper indexes for tables on what we querying then it will be way more faster. We are in the process of establing the proper indexes and db scans while writing a scenic view so that it can improve lot more.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As expected, DB Views approach is **260 times faster** than the naive ruby approach. If we have proper indexes for tables on what we are querying then it will be way faster. We are in the process of establishing the proper indexes and db scans while writing a scenic view so that it can improve a lot more.  
 
 <br /><br />
 **I’m happy to answer any questions if there are any! HMU in the comments.**
