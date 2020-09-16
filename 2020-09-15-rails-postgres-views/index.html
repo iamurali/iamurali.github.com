@@ -147,9 +147,10 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h1"><a href="#rails-with-postgresql-views-by-leveraging-active-record-entity-models">Rails with postgresql views by leveraging active record entity models</a>
 <ul>
 <li class="toc-entry toc-h2"><a href="#problem-statement">Problem Statement</a></li>
+<li class="toc-entry toc-h2"><a href="#lets-try-heavy-lifting-in-ruby">Lets try heavy lifting in ruby</a></li>
+<li class="toc-entry toc-h2"><a href="#working-with-postgres-views">Working with postgres views</a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h1"><a href="#lets-try-heavy-lifting-in-ruby">Lets try heavy lifting in ruby</a></li>
 </ul><h1 id="rails-with-postgresql-views-by-leveraging-active-record-entity-models">
 <a class="anchor" href="#rails-with-postgresql-views-by-leveraging-active-record-entity-models" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rails with postgresql views by leveraging active record entity models</h1>
 
@@ -162,11 +163,33 @@ window.onload = wrap_img;
 
 <p>We had to expose an endpoint which gives back information in a format of attendee and respective meeting. It could be csv, excel or any other format.</p>
 
-<p><img src="../images/db_views_schema.png" height="300px" width="480px"></p>
+<p><img src="../images/rails_db_views/db_views_schema.png" height="300px" width="480px"></p>
 
-<h1 id="lets-try-heavy-lifting-in-ruby">
-<a class="anchor" href="#lets-try-heavy-lifting-in-ruby" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lets try heavy lifting in ruby</h1>
+<h2 id="lets-try-heavy-lifting-in-ruby">
+<a class="anchor" href="#lets-try-heavy-lifting-in-ruby" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lets try heavy lifting in ruby</h2>
 
+<p>Initial Existing implementaiton we had implemented in ruby. The naive approach will include initialize each object and assoicated objects to the meeting.</p>
+
+<p>This worked well initally for small amount of data. It started giving performance problems when there are more than 2K meetings and each meeting has approximately 10. Which eventually become 21K objects initialization and storing the data in-memory while processing all of them.</p>
+
+<p><img src="../images/rails_db_views/ruby-heavy-lifting.png" height="300px" width="480px"></p>
+
+<p>It takes 10 seconds to retrieve the data and to format it. In a real life scenario, we would have to account for the time needed for the request to go through all the stack, from routing to rendering the views. 10 seconds is a lot of time, specially if you have lots of requests coming.</p>
+
+<p>It started taking more than 60 seconds if the request is having heavy data to manipulate and request.</p>
+
+<h2 id="working-with-postgres-views">
+<a class="anchor" href="#working-with-postgres-views" aria-hidden="true"><span class="octicon octicon-link"></span></a>Working with postgres views</h2>
+
+<p><em>                Database view is named query that provides another way to present data in the database tables. A view is defined based on one or more tables which are known as base tables. When you create a view, you basically create a query and assign it a name, therefore a view is useful for wrapping a commonly used complex query.</em></p>
+
+<p>Postgres has different types of views which are present.</p>
+<ul>
+  <li>Logical Views</li>
+  <li>Materialized views</li>
+</ul>
+
+<p><img src="../images/rails_db_views/db-views.png" height="300px" width="480px"></p>
 
   </div>
 
