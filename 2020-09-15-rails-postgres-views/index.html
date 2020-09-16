@@ -147,7 +147,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h1"><a href="#rails-with-postgresql-views-by-leveraging-active-record-entity-models">Rails with postgresql views by leveraging active record entity models</a>
 <ul>
 <li class="toc-entry toc-h2"><a href="#problem-statement">Problem Statement</a></li>
-<li class="toc-entry toc-h2"><a href="#lets-try-heavy-lifting-in-ruby">Lets try heavy lifting in ruby</a></li>
+<li class="toc-entry toc-h2"><a href="#initial-implementation-of-reports-in-ruby">Initial implementation of reports in ruby</a></li>
 <li class="toc-entry toc-h2"><a href="#working-with-postgres-views">Working with postgres views</a>
 <ul>
 <li class="toc-entry toc-h4"><a href="#logical-views">Logical Views</a></li>
@@ -172,12 +172,12 @@ window.onload = wrap_img;
 
 <p><img src="../images/rails_db_views/db_views_schema.png" height="300px" width="480px"></p>
 
-<h2 id="lets-try-heavy-lifting-in-ruby">
-<a class="anchor" href="#lets-try-heavy-lifting-in-ruby" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lets try heavy lifting in ruby</h2>
+<h2 id="initial-implementation-of-reports-in-ruby">
+<a class="anchor" href="#initial-implementation-of-reports-in-ruby" aria-hidden="true"><span class="octicon octicon-link"></span></a>Initial implementation of reports in ruby</h2>
 
-<p>Initial Existing implementation we had implemented in ruby. The naive approach will include initializing each object and associated objects to the meeting.</p>
+<p>Initially we have decide to implement all reportings in ruby. The naive approach will include initializing each object and associated objects to the meeting.</p>
 
-<p>This worked well initially for small amount of data. It started giving performance problems when there are more than 2K meetings and each meeting has approximately 10. Which eventually become 21K objects initialization and storing the data in-memory while processing all of them.</p>
+<p>This worked well initially for small amount of data. We have encountered performance issues when there are more than 2K meetings and each meeting has approximately 10. Which eventually become 21K objects initialization and storing the data in-memory while processing all of them.</p>
 
 <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">Benchmark</span><span class="p">.</span><span class="nf">bm</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="p">.</span><span class="nf">report</span> <span class="p">{</span>
   <span class="no">MeetingRequest</span><span class="p">.</span><span class="nf">all</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">meeting_request</span><span class="o">|</span>
@@ -264,7 +264,7 @@ window.onload = wrap_img;
 <span class="no">LEFT</span> <span class="no">OUTER</span> <span class="no">JOIN</span> <span class="n">requestor</span> <span class="no">ON</span> <span class="n">requestor</span><span class="p">.</span><span class="nf">uuid</span> <span class="o">=</span> <span class="n">meeting_requests</span><span class="p">.</span><span class="nf">requestor_uuid</span>
 </code></pre></div></div>
 
-<p>                We have benchmakred same format of the response format and see a major shift in the time that it takes to prepare the data to export. Please check the below report</p>
+<p>                We have bench makred same format of the response format and see a major shift in the time that it takes to prepare the data to export. Please check the below report</p>
 
 <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">Benchmark</span><span class="p">.</span><span class="nf">bm</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="p">.</span><span class="nf">report</span> <span class="p">{</span>
   <span class="n">meetings</span><span class="p">,</span> <span class="n">te</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">cp</span><span class="p">,</span> <span class="n">pr</span> <span class="o">=</span> <span class="no">MeetingView</span><span class="p">.</span><span class="nf">all</span><span class="p">.</span><span class="nf">sort_and_grouping</span><span class="p">({}.</span><span class="nf">merge</span><span class="p">({</span><span class="ss">current_location: </span><span class="n">location</span><span class="p">}))</span>
