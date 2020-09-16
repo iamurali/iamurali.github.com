@@ -121,7 +121,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      3 min read
+      4 min read
     
 </span></p>
 
@@ -152,8 +152,10 @@ window.onload = wrap_img;
 <ul>
 <li class="toc-entry toc-h4"><a href="#logical-views">Logical Views</a></li>
 <li class="toc-entry toc-h4"><a href="#materialized-views">Materialized Views</a></li>
+<li class="toc-entry toc-h4"><a href="#scenic-view">Scenic view</a></li>
 </ul>
 </li>
+<li class="toc-entry toc-h2"><a href="#we-have-gone-from-780sec-to-3secs">                We have gone from 780sec to 3secs</a></li>
 </ul>
 </li>
 </ul><h1 id="rails-with-postgresql-views-by-leveraging-active-record-entity-models">
@@ -214,6 +216,49 @@ window.onload = wrap_img;
 
 <p>They are similar to regular views, in that they are a logical view of your data (based on a select statement), however, the underlying query result set has been saved to a table. The upside of this is that when you query a materialized view, you are querying a table, which may also be indexed. (<a href="https://stackoverflow.com/questions/93539/what-is-the-difference-between-views-and-materialized-views-in-oracle">source</a>)</p>
 
+<p>                Given the fact that we will have lot of updates at ongoing event and meeting managers expect the reports in real time without any stale data we have decided to go with logical views thatn materialized views.</p>
+
+<h4 id="scenic-view">
+<a class="anchor" href="#scenic-view" aria-hidden="true"><span class="octicon octicon-link"></span></a>Scenic view</h4>
+
+<p>                I have decided to go with (scenic gem)[https://github.com/scenic-views/scenic] considering convention for versioning views that keeps migration history consistent and reversible and avoids having to duplicate SQL strings across migrations</p>
+
+<ul>
+  <li>Creating a scenic view</li>
+</ul>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="err">$</span> <span class="n">rails</span> <span class="n">generate</span> <span class="n">scenic</span><span class="ss">:view</span> <span class="n">meeting</span>
+<span class="no">Initializing</span> <span class="n">plugins</span><span class="o">...</span>
+      <span class="n">create</span>  <span class="n">db</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">meetings_v01</span><span class="p">.</span><span class="nf">sql</span>
+      <span class="n">create</span>  <span class="n">db</span><span class="o">/</span><span class="n">migrate</span><span class="o">/</span><span class="mi">20180916125309</span><span class="n">_create_meetings</span><span class="p">.</span><span class="nf">rb</span>
+</code></pre></div></div>
+
+<p>                Meeting View can be used as usal active record model and levarage all the functionalities at the same isolate the SQL queries in migration.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Model</span>
+<span class="k">class</span> <span class="nc">MeetingView</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="nb">self</span><span class="p">.</span><span class="nf">primary_key</span> <span class="o">=</span> <span class="ss">:meeting_uuid</span><span class="p">,</span> <span class="ss">:invite_user_uuid</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># [timestamp]_create_meetings.rb</span>
+<span class="no">SELECT</span>
+  <span class="n">meeting_requests</span><span class="p">.</span><span class="nf">id</span> <span class="no">AS</span> <span class="n">meeting_id</span><span class="p">,</span>
+  <span class="n">meeting_requests</span><span class="p">.</span><span class="nf">uuid</span> <span class="no">AS</span> <span class="n">meeting_uuid</span><span class="p">,</span>
+  <span class="n">meeting_requests</span><span class="p">.</span><span class="nf">meeting_with</span> <span class="n">as</span> <span class="n">meeting_with</span><span class="p">,</span>
+  <span class="o">...</span>
+  <span class="o">...</span>
+  <span class="o">...</span>
+  <span class="no">FROM</span> <span class="n">meeting_requests</span>
+<span class="no">LEFT</span> <span class="no">JOIN</span> <span class="n">rooms</span> <span class="no">ON</span> <span class="n">rooms</span><span class="p">.</span><span class="nf">id</span> <span class="o">=</span> <span class="n">meeting_requests</span><span class="p">.</span><span class="nf">room_id</span>
+<span class="no">LEFT</span> <span class="no">OUTER</span> <span class="no">JOIN</span> <span class="n">topics</span> <span class="no">ON</span> <span class="n">topics</span><span class="p">.</span><span class="nf">id</span> <span class="o">=</span> <span class="n">meeting_requests</span><span class="p">.</span><span class="nf">topic_id</span>
+    <span class="o">...</span>
+    <span class="o">...</span>
+<span class="no">LEFT</span> <span class="no">OUTER</span> <span class="no">JOIN</span> <span class="n">requestor</span> <span class="no">ON</span> <span class="n">requestor</span><span class="p">.</span><span class="nf">uuid</span> <span class="o">=</span> <span class="n">meeting_requests</span><span class="p">.</span><span class="nf">requestor_uuid</span>
+</code></pre></div></div>
+
+<p>                We have benchmakred same format of the response format and see a major shift in the time that it takes to prepare the data to export. Please check the below report</p>
+
 <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">Benchmark</span><span class="p">.</span><span class="nf">bm</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="p">.</span><span class="nf">report</span> <span class="p">{</span>
   <span class="n">meetings</span><span class="p">,</span> <span class="n">te</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">cp</span><span class="p">,</span> <span class="n">pr</span> <span class="o">=</span> <span class="no">MeetingView</span><span class="p">.</span><span class="nf">all</span><span class="p">.</span><span class="nf">sort_and_grouping</span><span class="p">({}.</span><span class="nf">merge</span><span class="p">({</span><span class="ss">current_location: </span><span class="n">location</span><span class="p">}))</span>
   <span class="n">settings</span> <span class="o">=</span> <span class="no">MeetingViewUtils</span><span class="o">::</span><span class="no">Settings</span><span class="p">.</span><span class="nf">get_options</span><span class="p">(</span><span class="n">meetings</span><span class="p">,</span> <span class="p">{}.</span><span class="nf">merge</span><span class="p">({</span><span class="ss">current_location: </span><span class="n">location</span><span class="p">}));</span><span class="mi">0</span>
@@ -224,6 +269,16 @@ window.onload = wrap_img;
 <span class="c1">#    0.220000   0.000000   0.220000 (  3.059728)</span>
 <span class="c1"># =&gt; [#&lt;Benchmark::Tms:0x000000002de13138 @label="", @real=3.059727756306529, @cstime=0.0, @cutime=0.0, @stime=0.0, @utime=0.22000000000002728, @total=0.22000000000002728&gt;]</span>
 </code></pre></div></div>
+<p><br></p>
+<h2 id="we-have-gone-from-780sec-to-3secs">
+<a class="anchor" href="#we-have-gone-from-780sec-to-3secs" aria-hidden="true"><span class="octicon octicon-link"></span></a>                <strong>We have gone from 780sec to 3secs</strong>
+</h2>
+
+<p><br>
+                As expected, DB Views approach is <strong>260 times faster</strong> than the naive ruby approach. If we have proper indexes for tables on what we querying then it will be way more faster. We are in the process of establing the proper indexes and db scans while writing a scenic view so that it can improve lot more.</p>
+
+<p><br><br>
+<strong>I’m happy to answer any questions if there are any! HMU in the comments.</strong></p>
 
   </div>
 
