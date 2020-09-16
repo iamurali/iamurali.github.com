@@ -121,7 +121,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      1 min read
+      3 min read
     
 </span></p>
 
@@ -148,7 +148,12 @@ window.onload = wrap_img;
 <ul>
 <li class="toc-entry toc-h2"><a href="#problem-statement">Problem Statement</a></li>
 <li class="toc-entry toc-h2"><a href="#lets-try-heavy-lifting-in-ruby">Lets try heavy lifting in ruby</a></li>
-<li class="toc-entry toc-h2"><a href="#working-with-postgres-views">Working with postgres views</a></li>
+<li class="toc-entry toc-h2"><a href="#working-with-postgres-views">Working with postgres views</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#logical-views">Logical Views</a></li>
+<li class="toc-entry toc-h4"><a href="#materialized-views">Materialized Views</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul><h1 id="rails-with-postgresql-views-by-leveraging-active-record-entity-models">
@@ -172,7 +177,15 @@ window.onload = wrap_img;
 
 <p>This worked well initally for small amount of data. It started giving performance problems when there are more than 2K meetings and each meeting has approximately 10. Which eventually become 21K objects initialization and storing the data in-memory while processing all of them.</p>
 
-<p><img src="../images/rails_db_views/ruby-heavy-lifting.png" height="300px" width="480px"></p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">Benchmark</span><span class="p">.</span><span class="nf">bm</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="p">.</span><span class="nf">report</span> <span class="p">{</span>
+  <span class="no">MeetingRequest</span><span class="p">.</span><span class="nf">all</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">meeting_request</span><span class="o">|</span>
+    <span class="n">meeting_request_details</span> <span class="o">=</span> <span class="n">meeting_request</span><span class="p">.</span><span class="nf">meeting_meta_reports_on_demand</span><span class="p">(</span><span class="n">mm_role_uuid</span><span class="p">,</span> <span class="p">[],</span> <span class="s1">' || '</span><span class="p">,</span> <span class="p">{</span><span class="ss">template_mode: </span><span class="s2">"separated"</span><span class="p">})</span>
+  <span class="k">end</span>
+<span class="p">}</span> <span class="p">}</span>
+ <span class="c1">#      user     system      total        real</span>
+ <span class="c1">#    444.780000  12.660000 457.440000 (780.303877)</span>
+ <span class="c1"># =&gt; [#&lt;Benchmark::Tms:0x000000001ba8cc88 @label="", @real=780.3038765005767, @cstime=0.0, @cutime=0.0, @stime=12.66, @utime=444.78000000000003, @total=457.44000000000005&gt;]</span>
+</code></pre></div></div>
 
 <p>It takes 10 seconds to retrieve the data and to format it. In a real life scenario, we would have to account for the time needed for the request to go through all the stack, from routing to rendering the views. 10 seconds is a lot of time, specially if you have lots of requests coming.</p>
 
@@ -189,7 +202,28 @@ window.onload = wrap_img;
   <li>Materialized views</li>
 </ul>
 
-<p><img src="../images/rails_db_views/db-views.png" height="300px" width="480px"></p>
+<h4 id="logical-views">
+<a class="anchor" href="#logical-views" aria-hidden="true"><span class="octicon octicon-link"></span></a>Logical Views</h4>
+
+<p>                They evaluate the data in the tables underlying the view definition at the time the view is queried. It is a logical view of your tables, with no data stored anywhere else.</p>
+
+<p>                The upside of a view is that it will always return the latest data to you. The downside of a view is that its performance depends on how good a select statement the view is based on. If the select statement used by the view joins many tables, or uses joins based on non-indexed columns, the view could perform poorly.</p>
+
+<h4 id="materialized-views">
+<a class="anchor" href="#materialized-views" aria-hidden="true"><span class="octicon octicon-link"></span></a>Materialized Views</h4>
+
+<p>They are similar to regular views, in that they are a logical view of your data (based on a select statement), however, the underlying query result set has been saved to a table. The upside of this is that when you query a materialized view, you are querying a table, which may also be indexed. (<a href="https://stackoverflow.com/questions/93539/what-is-the-difference-between-views-and-materialized-views-in-oracle">source</a>)</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">Benchmark</span><span class="p">.</span><span class="nf">bm</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="p">.</span><span class="nf">report</span> <span class="p">{</span>
+  <span class="n">meetings</span><span class="p">,</span> <span class="n">te</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">cp</span><span class="p">,</span> <span class="n">pr</span> <span class="o">=</span> <span class="no">MeetingView</span><span class="p">.</span><span class="nf">all</span><span class="p">.</span><span class="nf">sort_and_grouping</span><span class="p">({}.</span><span class="nf">merge</span><span class="p">({</span><span class="ss">current_location: </span><span class="n">location</span><span class="p">}))</span>
+  <span class="n">settings</span> <span class="o">=</span> <span class="no">MeetingViewUtils</span><span class="o">::</span><span class="no">Settings</span><span class="p">.</span><span class="nf">get_options</span><span class="p">(</span><span class="n">meetings</span><span class="p">,</span> <span class="p">{}.</span><span class="nf">merge</span><span class="p">({</span><span class="ss">current_location: </span><span class="n">location</span><span class="p">}));</span><span class="mi">0</span>
+  <span class="n">meeting_objs</span> <span class="o">=</span> <span class="no">MeetingViewUtils</span><span class="o">::</span><span class="no">MergedMeetingViewSerializer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">meetings</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">current_event</span><span class="p">).</span><span class="nf">ondemand_attribs</span>
+<span class="p">}</span> <span class="p">}</span>
+
+<span class="c1">#       user     system      total        real</span>
+<span class="c1">#    0.220000   0.000000   0.220000 (  3.059728)</span>
+<span class="c1"># =&gt; [#&lt;Benchmark::Tms:0x000000002de13138 @label="", @real=3.059727756306529, @cstime=0.0, @cutime=0.0, @stime=0.0, @utime=0.22000000000002728, @total=0.22000000000002728&gt;]</span>
+</code></pre></div></div>
 
   </div>
 
