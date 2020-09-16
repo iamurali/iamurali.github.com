@@ -42,30 +42,30 @@ It started taking more than 60 seconds if the request is having heavy data to ma
 ## Working with postgres views
 
 
-*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Database view is named query that provides another way to present data in the database tables. A view is defined based on one or more tables which are known as base tables. When you create a view, you basically create a query and assign it a name, therefore a view is useful for wrapping a commonly used complex query.*
+> *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Database view is named query that provides another way to present data in the database tables. A view is defined based on one or more tables which are known as base tables. When you create a view, you basically create a query and assign it a name, therefore a view is useful for wrapping a commonly used complex query.*
 
 Postgres has different types of views which are present.
 * Logical Views
 * Materialized views 
 
 
-#### Logical Views
+#### **Logical Views**
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;They evaluate the data in the tables underlying the view definition at the time the view is queried. It is a logical view of your tables, with no data stored anywhere else.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The upside of a view is that it will always return the latest data to you. The downside of a view is that its performance depends on how good a select statement the view is based on. If the select statement used by the view joins many tables, or uses joins based on non-indexed columns, the view could perform poorly.
 
-#### Materialized Views
+#### **Materialized Views**
 
 They are similar to regular views, in that they are a logical view of your data (based on a select statement), however, the underlying query result set has been saved to a table. The upside of this is that when you query a materialized view, you are querying a table, which may also be indexed. ([source](https://stackoverflow.com/questions/93539/what-is-the-difference-between-views-and-materialized-views-in-oracle))
+<br/>
+> Given the fact that we will have lot of updates at ongoing event and meeting managers expect the reports in real time without any stale data we have decided to go with logical views that materialized views.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Given the fact that we will have lot of updates at ongoing event and meeting managers expect the reports in real time without any stale data we have decided to go with logical views thatn materialized views.
-
-#### Scenic view
+#### **Scenic view**
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I have decided to go with (scenic gem)[https://github.com/scenic-views/scenic] considering convention for versioning views that keeps migration history consistent and reversible and avoids having to duplicate SQL strings across migrations
 
-* Creating a scenic view
+* **Creating a scenic view**
 
 ```ruby
  $ rails generate scenic:view meeting
