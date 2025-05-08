@@ -1,17 +1,17 @@
-name: GH-Pages Status
+name: Check GH Pages Status
+
 on:
-  page_build
-  
+  workflow_run:
+    workflows: ["Pages Build and Deployment"]
+    types:
+      - completed
+
 jobs:
-  see-page-build-payload:
+  check-status:
+    if: ${{ github.event.workflow_run.conclusion != 'success' }}
     runs-on: ubuntu-latest
-    steps:      
-      - name: check status
+    steps:
+      - name: Fail if Pages build failed
         run: |
-          import os
-          status, errormsg = os.getenv('STATUS'), os.getenv('ERROR')
-          assert status == 'built', 'There was an error building the page on GitHub pages.\n\nStatus: {}\n\nError messsage: {}'.format(status, errormsg)
-        shell: python
-        env:
-          STATUS: ${{ github.event.build.status }}
-          ERROR: ${{ github.event.build.error.message }}
+          echo "GitHub Pages build failed!"
+          exit 1
