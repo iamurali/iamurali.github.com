@@ -3,6 +3,7 @@ project:
 
 website:
   title: "Murali K | Engineer"
+  google-analytics: "G-96B2WQTTBR"
   navbar:
     right:
       - about.qmd
