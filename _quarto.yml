@@ -16,9 +16,16 @@ website:
 format:
   html:
     theme:
-      light: darkly
-      dark: cosmo
+      light: cosmo
+      dark: darkly
     css: styles.css
+    include-in-header:
+      - text: |
+          <script>
+            if (window.localStorage.getItem("quarto-color-scheme") === null) {
+              window.localStorage.setItem("quarto-color-scheme", "alternate");
+            }
+          </script>
     comments: false
 
 
