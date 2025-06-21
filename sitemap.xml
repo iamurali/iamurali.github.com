@@ -1,35 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url>
-<loc>https://iamurali.github.io/jupyter/2020/02/20/test.html</loc>
-<lastmod>2020-02-20T00:00:00-06:00</lastmod>
-</url>
-<url>
-<loc>https://iamurali.github.io/2020-08-15-dynamic-context-with-ruby/</loc>
-<lastmod>2020-08-15T00:00:00-05:00</lastmod>
-</url>
-<url>
-<loc>https://iamurali.github.io/2020-08-17-multiple-mysql-versions/</loc>
-<lastmod>2020-08-17T00:00:00-05:00</lastmod>
-</url>
-<url>
-<loc>https://iamurali.github.io/2020-08-120-top-engineering-blogs/</loc>
-<lastmod>2020-08-20T00:00:00-05:00</lastmod>
-</url>
-<url>
-<loc>https://iamurali.github.io/2020-09-15-rails-postgres-views/</loc>
-<lastmod>2020-09-15T00:00:00-05:00</lastmod>
-</url>
-<url>
-<loc>https://iamurali.github.io/about/</loc>
-</url>
-<url>
-<loc>https://iamurali.github.io/</loc>
-</url>
-<url>
-<loc>https://iamurali.github.io/search/</loc>
-</url>
-<url>
-<loc>https://iamurali.github.io/categories/</loc>
-</url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://muralik.in/posts/2020-08-20-top-engineering-blogs.md/index.html</loc>
+    <lastmod>2025-06-21T12:15:16.241Z</lastmod>
+  </url>
+  <url>
+    <loc>https://muralik.in/posts/2020-08-17-multiple-mysql-versions.md/index.html</loc>
+    <lastmod>2025-06-21T12:15:16.240Z</lastmod>
+  </url>
+  <url>
+    <loc>https://muralik.in/index.html</loc>
+    <lastmod>2025-06-21T12:15:16.240Z</lastmod>
+  </url>
+  <url>
+    <loc>https://muralik.in/about.html</loc>
+    <lastmod>2025-06-21T12:15:16.232Z</lastmod>
+  </url>
+  <url>
+    <loc>https://muralik.in/posts/20-08-15-dynamic-context-with-ruby/index.html</loc>
+    <lastmod>2025-06-21T12:15:16.240Z</lastmod>
+  </url>
+  <url>
+    <loc>https://muralik.in/posts/2020-09-15-rails-postgres-views.md/index.html</loc>
+    <lastmod>2025-06-21T12:15:16.241Z</lastmod>
+  </url>
 </urlset>
