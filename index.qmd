@@ -11,3 +11,8 @@ page-layout: full
 title-block-banner: true
 ---
 
+Welcome to my personal website! I'm a software engineer passionate about building great products and sharing knowledge through writing.
+
+## Recent Posts
+
+Below you'll find my latest blog posts about software engineering, development practices, and technical insights.
