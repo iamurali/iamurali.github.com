@@ -1,0 +1,30 @@
+---
+title: "About (Murali K)"
+image: profile.jpeg
+about:
+  template: jolla
+  links:
+    - icon: twitter
+      text: Twitter
+      href: https://twitter.com/muralikummitha
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/muralikummitha
+    - icon: github
+      text: Github
+      href: https://github.com/iamurali
+
+---
+
+Welcome to my personal blog! I'm passionate about technology, coding, and sharing knowledge with the community.
+
+### What I Do
+
+I work on various projects involving web development, data analysis, and software engineering. This blog serves as a platform where I share insights, tutorials, and thoughts about the technologies I work with.
+
+### Get in Touch
+
+Feel free to connect with me on social media or reach out if you'd like to collaborate on projects or discuss technology topics.
+
+
+*Thanks for visiting!*
