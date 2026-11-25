@@ -1,14 +1,31 @@
 project:
   type: website
+  resources:
+    - llms.txt
+    - images/icon-*.png
+    - images/apple-touch-icon.png
+    - images/favicon-32.png
+    - images/social-card.png
 
 website:
-  title: "~/muralik.in"
-  description: "Murali K — Staff Software Engineer. Notes on agentic systems, distributed systems and data platforms."
+  title: "Murali Kummitha"
+  description: "Murali Kummitha (Murali K), Staff Software Engineer in Bengaluru. Writing on agentic AI systems, distributed systems, MCP, platform engineering and data."
   site-url: https://muralik.in
   favicon: images/favicon.ico
+  image: images/social-card.png
+  open-graph:
+    locale: en_US
+    site-name: "Murali Kummitha"
+  twitter-card:
+    creator: "@muralikummitha"
+    site: "@muralikummitha"
+    card-style: summary_large_image
   google-analytics: "G-96B2WQTTBR"
   page-navigation: true
   navbar:
+    title: "~/muralik.in"
+    logo: images/icon-192.png
+    logo-alt: "Murali Kummitha logo"
     background: "#0b0f0e"
     right:
       - text: "./writing"
@@ -24,7 +41,7 @@ website:
         href: https://twitter.com/muralikummitha
         aria-label: X / Twitter
   page-footer:
-    left: "© 2026 Murali K"
+    left: "© 2026 Murali Kummitha"
     right: "exit 0"
   comments:
     giscus:
@@ -42,3 +59,13 @@ format:
     smooth-scroll: true
     toc-title: "// contents"
     comments: false
+    canonical-url: true
+    include-in-header:
+      text: |
+        <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
+        <meta name="author" content="Murali Kummitha">
+        <meta name="theme-color" content="#0b0f0e">
+
+filters:
+  - seo.lua

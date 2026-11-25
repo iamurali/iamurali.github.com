@@ -1,14 +1,12 @@
 ---
 title: "Upgrades on autopilot"
-description: "A simple loop that finds out-of-date services, has an AI agent fix them, and only calls it done when a human merges the pull request."
+pagetitle: "Upgrades on autopilot with AI agents"
+description: "How AI agents, MCP skills and headless Claude Code find out-of-date services across a fleet, fix them with pull requests, and close the loop on merge."
 date: "2026-11-25"
-categories: [agents, mcp, platform-engineering]
+categories: [ai-agents, mcp, claude-code, platform-engineering, dependency-upgrades]
 draft: false
 resources:
   - diagrams.js
-include-after-body:
-  text: |
-    <script src="diagrams.js"></script>
 ---
 
 You've probably seen this message: *"Please upgrade to the new version of the framework by the end of the quarter."* It goes out to hundreds of teams. Some do it. Some put it off. Some never see it. Next quarter, the same message goes out again.
@@ -215,3 +213,7 @@ Rolling out an upgrade across the fleet used to mean tickets for hundreds of tea
 From there the system scans the fleet, opens a pull request for every service that's behind, proves each one in an ephemeral environment, and closes each finding when its owner merges.
 
 For the services it covers, that has cut manual upgrade work by about **90%** and the time to get a service up to date by about **75%**. The conversation has changed too. It used to be *"please do this upgrade"*. Now it's *"there's a pull request waiting for your review"*.
+
+```{=html}
+<script src="diagrams.js" defer></script>
+```

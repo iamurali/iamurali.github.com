@@ -1,0 +1,18 @@
+# Murali Kummitha (muralik.in)
+
+> Personal site and blog of Murali Kummitha (Murali K), a Staff Software Engineer in Bengaluru with 12+ years in agentic AI systems, distributed systems, data platforms and fintech.
+
+## About
+- [About Murali Kummitha](https://muralik.in/about.html): background, career timeline and contact links.
+
+## Writing
+- [Upgrades on autopilot with AI agents](https://muralik.in/posts/2026-11-25-agentic-upgrades/): finding out-of-date services across a fleet, fixing them with AI agents, MCP skills and headless Claude Code, and closing the loop on merge.
+- [Rails with PostgreSQL views](https://muralik.in/posts/2020-09-15-rails-postgres-views.md/): versioned PostgreSQL views behind ActiveRecord models with the Scenic gem.
+- [Top engineering blogs to follow](https://muralik.in/posts/2020-08-20-top-engineering-blogs.md/): a curated list of tech company engineering blogs.
+- [Multiple MySQL versions with Homebrew](https://muralik.in/posts/2020-08-17-multiple-mysql-versions.md/): installing and switching MySQL versions on macOS.
+- [Template rendering with dynamic context](https://muralik.in/posts/20-08-15-dynamic-context-with-ruby/): ERB templates with Ruby Binding and OpenStruct.
+
+## Elsewhere
+- [GitHub](https://github.com/iamurali)
+- [LinkedIn](https://www.linkedin.com/in/muralikummitha)
+- [X](https://twitter.com/muralikummitha)

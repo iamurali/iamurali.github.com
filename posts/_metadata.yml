@@ -7,6 +7,15 @@ freeze: auto
 author: "Murali K"
 toc: true
 title-block-banner: false
+include-after-body:
+  text: |
+    <aside class="author-box">
+      <img src="/images/icon-192.png" alt="Murali Kummitha logo" width="56" height="56" loading="lazy" decoding="async">
+      <div>
+        <div class="author-name">Written by <a href="/about.html">Murali Kummitha</a></div>
+        <p>Staff Software Engineer working on agentic AI systems, distributed systems and platform engineering. Find me on <a href="https://www.linkedin.com/in/muralikummitha">LinkedIn</a>, <a href="https://github.com/iamurali">GitHub</a> and <a href="https://twitter.com/muralikummitha">X</a>.</p>
+      </div>
+    </aside>
 
 comments:
   giscus:

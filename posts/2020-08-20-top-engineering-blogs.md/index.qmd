@@ -1,5 +1,8 @@
 ---
-description: Top Engineering Blogs from Tech Companies to Follow
+pagetitle: "Top engineering blogs to follow"
+aliases:
+  - /2020-08-20-top-engineering-blogs/index.html
+description: "A curated list of the best engineering blogs from tech companies like Netflix, Uber, Airbnb, Stripe and Shopify, worth following."
 image: /images/companies_thmubnail.png
 categories: [tech]
 title: Top Engineering Blogs from Tech Companies to Follow

@@ -8,9 +8,9 @@
 
 <meta name="author" content="Murali K">
 <meta name="dcterms.date" content="2026-11-25">
-<meta name="description" content="A simple loop that finds out-of-date services, has an AI agent fix them, and only calls it done when a human merges the pull request.">
+<meta name="description" content="How AI agents, MCP skills and headless Claude Code find out-of-date services across a fleet, fix them with pull requests, and close the loop on merge.">
 
-<title>Upgrades on autopilot – ~/muralik.in</title>
+<title>Upgrades on autopilot with AI agents – Murali Kummitha</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -85,7 +85,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-c7c56597c65822072727dd3b82333d5a.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-d12b1a04d134d5a7f4ca3648ec9dc337.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-05f957e8d8f520d9e25ac3245240d0ba.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -123,8 +123,28 @@ gtag('js', new Date());
 gtag('config', 'G-96B2WQTTBR', { 'anonymize_ip': true});
 </script>
 <style>html{ scroll-behavior: smooth; }</style>
+<link rel="apple-touch-icon" href="../../images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon-32.png">
+<meta name="author" content="Murali Kummitha">
+<meta name="theme-color" content="#0b0f0e">
+<meta property="og:url" content="https://muralik.in/posts/2026-11-25-agentic-upgrades/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","alternateName":["Murali K","Kummitha Murali"],"image":"https://muralik.in/profile.jpeg","jobTitle":"Staff Software Engineer","knowsAbout":["Agentic AI systems","Distributed systems","Platform engineering","Model Context Protocol","Data engineering","Ruby on Rails","PostgreSQL"],"name":"Murali Kummitha","sameAs":["https://github.com/iamurali","https://www.linkedin.com/in/muralikummitha","https://twitter.com/muralikummitha"],"url":"https://muralik.in/about.html"},"dateModified":"November 25, 2026","datePublished":"November 25, 2026","description":"How AI agents, MCP skills and headless Claude Code find out-of-date services across a fleet, fix them with pull requests, and close the loop on merge.","headline":"Upgrades on autopilot","image":"https://muralik.in/images/social-card.png","keywords":"ai-agents, mcp, claude-code, platform-engineering, dependency-upgrades","mainEntityOfPage":"https://muralik.in/posts/2026-11-25-agentic-upgrades/","publisher":{"@type":"Person","name":"Murali Kummitha","url":"https://muralik.in/"},"url":"https://muralik.in/posts/2026-11-25-agentic-upgrades/"}</script>
 
 
+<meta property="og:title" content="Upgrades on autopilot with AI agents">
+<meta property="og:description" content="How AI agents, MCP skills and headless Claude Code find out-of-date services across a fleet, fix them with pull requests, and close the loop on merge.">
+<meta property="og:image" content="https://muralik.in/images/social-card.png">
+<meta property="og:site_name" content="Murali Kummitha">
+<meta property="og:locale" content="en_US">
+<meta property="og:image:height" content="630">
+<meta property="og:image:width" content="1200">
+<meta name="twitter:title" content="Upgrades on autopilot with AI agents">
+<meta name="twitter:description" content="How AI agents, MCP skills and headless Claude Code find out-of-date services across a fleet, fix them with pull requests, and close the loop on merge.">
+<meta name="twitter:image" content="https://muralik.in/images/social-card.png">
+<meta name="twitter:creator" content="@muralikummitha">
+<meta name="twitter:site" content="@muralikummitha">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://muralik.in/posts/2026-11-25-agentic-upgrades/">
 </head>
 
 <body class="nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
@@ -134,6 +154,10 @@ gtag('config', 'G-96B2WQTTBR', { 'anonymize_ip': true});
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/icon-192.png" alt="Murali Kummitha logo" class="navbar-logo light-content">
+    <img src="../../images/icon-192.png" alt="Murali Kummitha logo" class="navbar-logo dark-content">
+    </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">~/muralik.in</span>
     </a>
@@ -207,15 +231,17 @@ gtag('config', 'G-96B2WQTTBR', { 'anonymize_ip': true});
 <div class="quarto-title">
 <h1 class="title">Upgrades on autopilot</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">agents</div>
+    <div class="quarto-category">ai-agents</div>
     <div class="quarto-category">mcp</div>
+    <div class="quarto-category">claude-code</div>
     <div class="quarto-category">platform-engineering</div>
+    <div class="quarto-category">dependency-upgrades</div>
   </div>
   </div>
 
 <div>
   <div class="description">
-    A simple loop that finds out-of-date services, has an AI agent fix them, and only calls it done when a human merges the pull request.
+    How AI agents, MCP skills and headless Claude Code find out-of-date services across a fleet, fix them with pull requests, and close the loop on merge.
   </div>
 </div>
 
@@ -446,6 +472,7 @@ gtag('config', 'G-96B2WQTTBR', { 'anonymize_ip': true});
 </ol>
 <p>From there the system scans the fleet, opens a pull request for every service that’s behind, proves each one in an ephemeral environment, and closes each finding when its owner merges.</p>
 <p>For the services it covers, that has cut manual upgrade work by about <strong>90%</strong> and the time to get a service up to date by about <strong>75%</strong>. The conversation has changed too. It used to be <em>“please do this upgrade”</em>. Now it’s <em>“there’s a pull request waiting for your review”</em>.</p>
+<script src="diagrams.js" defer=""></script>
 
 
 </section>
@@ -960,7 +987,7 @@ gtag('config', 'G-96B2WQTTBR', { 'anonymize_ip': true});
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>© 2026 Murali K</p>
+<p>© 2026 Murali Kummitha</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
@@ -970,7 +997,13 @@ gtag('config', 'G-96B2WQTTBR', { 'anonymize_ip': true});
 </div>
   </div>
 </footer>
-<script src="diagrams.js"></script>
+<aside class="author-box">
+  <img src="../../images/icon-192.png" alt="Murali Kummitha logo" width="56" height="56" loading="lazy" decoding="async">
+  <div>
+    <div class="author-name">Written by <a href="../../about.html">Murali Kummitha</a></div>
+    <p>Staff Software Engineer working on agentic AI systems, distributed systems and platform engineering. Find me on <a href="https://www.linkedin.com/in/muralikummitha">LinkedIn</a>, <a href="https://github.com/iamurali">GitHub</a> and <a href="https://twitter.com/muralikummitha">X</a>.</p>
+  </div>
+</aside>
 
 
 

@@ -1,23 +1,23 @@
 ---
 title: "about.md"
-pagetitle: "About — Murali K"
-description: "Staff Software Engineer. 12+ years across agentic systems, distributed systems, data platforms and fintech."
+pagetitle: "About · Murali K"
+description: "Murali Kummitha (Murali K) is a Staff Software Engineer in Bengaluru: 12+ years across agentic AI, distributed systems, data platforms and fintech."
 page-layout: article
 toc: false
 ---
 
 ```{=html}
 <div class="about-head">
-  <img src="profile.jpeg" alt="Portrait of Murali K">
+  <img src="profile.jpeg" alt="Murali Kummitha, Staff Software Engineer">
   <div>
     <div class="prompt"><span class="user">murali@muralik</span>:<span class="path">~</span>$ finger murali</div>
-    <h2 style="margin:8px 0 4px;border:0">Murali K</h2>
+    <h2 style="margin:8px 0 4px;border:0">Murali Kummitha</h2>
     <div class="mono" style="color:#f2b866;font-size:.9rem">Staff Software Engineer @ Intuit · Bengaluru</div>
   </div>
 </div>
 ```
 
-I'm a software architect with 12+ years in distributed systems, data engineering and product development. Right now I'm at Intuit, building **agentic systems**: agents that detect drift, upgrades and runtime issues across service libraries, then fix them, notify owners and close the loop. I design these systems around specifications, skill networks and MCP-based tool orchestration, so agents get just the context they need at each step.
+I'm Murali Kummitha (Murali K), a software architect with 12+ years in distributed systems, data engineering and product development. Right now I'm at Intuit, building **agentic systems**: agents that detect drift, upgrades and runtime issues across service libraries, then fix them, notify owners and close the loop. I design these systems around specifications, skill networks and MCP-based tool orchestration, so agents get just the context they need at each step.
 
 Before that I scaled exam platforms, fintech rails and enterprise SaaS. The common thread is systems that have to stay fast and correct when traffic, data or teams grow quickly. I hold a PG Diploma in Machine Learning & AI from IIIT Bangalore.
 

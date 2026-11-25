@@ -1,5 +1,8 @@
 ---
-description: Parse the erb template string and make use of binding to encapsulate the current context for parsing.
+pagetitle: "Ruby ERB templates with dynamic context"
+aliases:
+  - /2020-08-15-dynamic-context-with-ruby/index.html
+description: "Render ERB templates in Ruby with a dynamic context: use Binding and OpenStruct to build human-readable audit messages in Rails."
 categories: [ruby, erb, yml, templating, rails, ROR]
 image: /images/erb-context.png
 title: "Template Rendering with Dynamic Context"

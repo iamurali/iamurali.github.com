@@ -1,6 +1,7 @@
 ---
-pagetitle: "Murali K — Staff Software Engineer"
-description: "Staff Software Engineer building agentic systems, drawing on 12+ years of distributed systems, data platforms and fintech at scale."
+title: "Murali Kummitha"
+pagetitle: "Staff Software Engineer"
+description: "Murali Kummitha (Murali K), Staff Software Engineer building agentic AI systems. 12+ years in distributed systems, data platforms and fintech."
 page-layout: article
 toc: false
 title-block-style: none
@@ -14,6 +15,7 @@ listing:
   categories: false
   sort-ui: false
   filter-ui: false
+  feed: true
 ---
 
 ```{=html}
@@ -21,7 +23,7 @@ listing:
 
 <section class="hero">
   <div class="prompt"><span class="user">murali@muralik</span>:<span class="path">~</span>$ whoami</div>
-  <div class="hero-name" role="heading" aria-level="1">Murali K<span class="cursor"></span></div>
+  <div class="hero-name" aria-hidden="true">Murali K<span class="cursor"></span></div>
   <div class="role">staff_engineer --agentic --distributed-systems --12y</div>
   <p class="lede">Staff engineer building agents that find, fix and ship changes on their own, drawing on 12+ years of distributed systems, data platforms and fintech at scale. These are my field notes on making it all work in production.</p>
   <div class="btn-row">
@@ -33,7 +35,8 @@ listing:
 <section id="about" class="panels">
   <div class="term-window">
     <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="name">about.yml</span></div>
-<pre class="yml"><span class="k">role</span>: Staff Software Engineer
+<pre class="yml"><span class="k">name</span>: Murali Kummitha
+<span class="k">role</span>: Staff Software Engineer
 <span class="k">experience</span>: 12+ years
 <span class="k">building</span>: [agentic systems, MCP tooling, skill networks]
 <span class="k">focus</span>: [distributed systems, data platforms, fintech]

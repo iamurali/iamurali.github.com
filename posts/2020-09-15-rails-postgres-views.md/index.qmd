@@ -1,5 +1,8 @@
 ---
-description: Rails + postgresql views/materialized views with versioning and usages
+pagetitle: "Rails + PostgreSQL views with Scenic"
+aliases:
+  - /2020-09-15-rails-postgres-views/index.html
+description: "Speed up Rails reports with PostgreSQL views and the Scenic gem: versioned views behind ActiveRecord models took a 780s report to 3s."
 categories: [postgres, rails, views]
 title: Rails with postgresql views by leveraging active record entity models
 date: "2020-09-15"

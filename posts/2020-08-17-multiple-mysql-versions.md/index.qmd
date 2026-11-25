@@ -1,5 +1,8 @@
 ---
-description: Install multiple versions of MySql in mac and switch back nd forth if required.
+pagetitle: "Multiple MySQL versions with Homebrew"
+aliases:
+  - /2020-08-17-multiple-mysql-versions/index.html
+description: "Install multiple MySQL versions on a Mac with Homebrew, run them as launch agents, and switch between versions on demand."
 categories: [mysql, database]
 title: Setup Multiple MySql's with homebrew in Mac local machine
 date: "2020-08-17"

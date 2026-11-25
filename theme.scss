@@ -542,3 +542,27 @@ main.content .case .case-note b { color: $term-fg; }
   font-size: 0.85rem;
   color: $term-green;
 }
+
+// author box after each post
+.author-box {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin: 3rem 0 0;
+  padding: 18px 20px;
+  background: $term-panel;
+  border: 1px solid $term-line;
+  border-radius: 10px;
+  img { width: 56px; height: 56px; border-radius: 12px; flex: 0 0 auto; }
+  .author-name { font-family: $font-family-monospace; font-size: 0.85rem; color: $term-muted; margin-bottom: 4px; a { font-weight: 700; } }
+  p { margin: 0; font-size: 0.9rem; line-height: 1.55; color: $term-soft; }
+}
+
+// home: keep the full-name <h1> for search engines and screen readers, hide it visually
+#quarto-content:has(.home) #title-block-header {
+  position: absolute !important;
+  width: 1px; height: 1px; margin: 0; padding: 0; border: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+.navbar-brand .navbar-logo { max-height: 28px; border-radius: 6px; margin-right: 4px; }
