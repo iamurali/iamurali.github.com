@@ -1,18 +1,77 @@
 ---
-title: "Hi, I'm Murali"
+pagetitle: "Murali K — Staff Software Engineer"
+description: "Staff Software Engineer building agentic systems, drawing on 12+ years of distributed systems, data platforms and fintech at scale."
+page-layout: article
+toc: false
+title-block-style: none
 listing:
+  id: writing-list
   contents: posts
   sort: "date desc"
-  type: default
-  categories: true
+  template: posts.ejs
+  date-format: "YYYY-MM-DD"
+  fields: [date, title, categories, description]
+  categories: false
   sort-ui: false
   filter-ui: false
-page-layout: full
-title-block-banner: true
 ---
 
-Welcome to my personal website! I'm a software engineer passionate about building great products and sharing knowledge through writing.
+```{=html}
+<div class="home">
 
-## Recent Posts
+<section class="hero">
+  <div class="prompt"><span class="user">murali@muralik</span>:<span class="path">~</span>$ whoami</div>
+  <div class="hero-name" role="heading" aria-level="1">Murali K<span class="cursor"></span></div>
+  <div class="role">staff_engineer --agentic --distributed-systems --12y</div>
+  <p class="lede">Staff engineer building agents that find, fix and ship changes on their own, drawing on 12+ years of distributed systems, data platforms and fintech at scale. These are my field notes on making it all work in production.</p>
+  <div class="btn-row">
+    <a class="btn-term solid" href="#writing">cat ./writing</a>
+    <a class="btn-term" href="#contact">ping me</a>
+  </div>
+</section>
 
-Below you'll find my latest blog posts about software engineering, development practices, and technical insights.
+<section id="about" class="panels">
+  <div class="term-window">
+    <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="name">about.yml</span></div>
+<pre class="yml"><span class="k">role</span>: Staff Software Engineer
+<span class="k">experience</span>: 12+ years
+<span class="k">building</span>: [agentic systems, MCP tooling, skill networks]
+<span class="k">focus</span>: [distributed systems, data platforms, fintech]
+<span class="k">stack</span>: [kotlin, java, python, pyspark, airflow, clickhouse, redis]
+<span class="k">more</span>: <a href="/about.html">./about</a></pre>
+  </div>
+  <div class="term-window">
+    <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="name">what-i-do.md</span></div>
+    <div class="body">
+      <ul>
+        <li>Build agents that detect drift, upgrades and runtime issues, fix them and notify owners. That's cut manual work by 90% and resolution time by 75%.</li>
+        <li>Design spec-driven agent workflows with skill networks, progressive disclosure and MCP-based tool orchestration.</li>
+        <li>Scale platforms through sudden spikes: 2 lakh+ concurrent users on an exam platform, plus payments and lending for millions of SMEs.</li>
+        <li>Run data pipelines over 2.5TB+ with PySpark, Airflow and ClickHouse.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="writing">
+  <div class="section-cmd"><span class="dollar">$</span> ls -lt ./writing</div>
+```
+
+::: {#writing-list}
+:::
+
+```{=html}
+</section>
+
+<section id="contact" class="contact-box">
+  <div class="section-cmd" style="margin:0"><span class="dollar">$</span> ./contact --open</div>
+  <h2>Let's build something.</h2>
+  <div class="btn-row">
+    <a class="btn-term" href="https://github.com/iamurali">github/iamurali</a>
+    <a class="btn-term" href="https://www.linkedin.com/in/muralikummitha">linkedin/muralikummitha</a>
+    <a class="btn-term" href="https://twitter.com/muralikummitha">x/muralikummitha</a>
+  </div>
+</section>
+
+</div>
+```

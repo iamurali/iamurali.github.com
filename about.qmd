@@ -1,30 +1,83 @@
 ---
-title: "About (Murali K)"
-image: profile.jpeg
-about:
-  template: jolla
-  links:
-    - icon: twitter
-      text: Twitter
-      href: https://twitter.com/muralikummitha
-    - icon: linkedin
-      text: LinkedIn
-      href: https://www.linkedin.com/in/muralikummitha
-    - icon: github
-      text: Github
-      href: https://github.com/iamurali
-
+title: "about.md"
+pagetitle: "About — Murali K"
+description: "Staff Software Engineer. 12+ years across agentic systems, distributed systems, data platforms and fintech."
+page-layout: article
+toc: false
 ---
 
-Welcome to my personal blog! I'm passionate about technology, coding, and sharing knowledge with the community.
+```{=html}
+<div class="about-head">
+  <img src="profile.jpeg" alt="Portrait of Murali K">
+  <div>
+    <div class="prompt"><span class="user">murali@muralik</span>:<span class="path">~</span>$ finger murali</div>
+    <h2 style="margin:8px 0 4px;border:0">Murali K</h2>
+    <div class="mono" style="color:#f2b866;font-size:.9rem">Staff Software Engineer @ Intuit · Bengaluru</div>
+  </div>
+</div>
+```
 
-### What I Do
+I'm a software architect with 12+ years in distributed systems, data engineering and product development. Right now I'm at Intuit, building **agentic systems**: agents that detect drift, upgrades and runtime issues across service libraries, then fix them, notify owners and close the loop. I design these systems around specifications, skill networks and MCP-based tool orchestration, so agents get just the context they need at each step.
 
-I work on various projects involving web development, data analysis, and software engineering. This blog serves as a platform where I share insights, tutorials, and thoughts about the technologies I work with.
+Before that I scaled exam platforms, fintech rails and enterprise SaaS. The common thread is systems that have to stay fast and correct when traffic, data or teams grow quickly. I hold a PG Diploma in Machine Learning & AI from IIIT Bangalore.
 
-### Get in Touch
+## git log \-\-career
 
-Feel free to connect with me on social media or reach out if you'd like to collaborate on projects or discuss technology topics.
+```{=html}
+<div class="gitlog">
+  <div class="commit">
+    <div class="sha"><span class="hash">HEAD → intuit</span><span class="when">2026 — now</span></div>
+    <div class="msg">Staff Software Engineer · Intuit</div>
+    <ul>
+      <li>Built an agentic framework that detects, surfaces and auto-remediates drift, upgrades and runtime issues across service libraries. It cut manual work by 90% and resolution time by 75%.</li>
+      <li>Building spec-driven agent systems with skill networks and progressive disclosure for context-aware workflows.</li>
+      <li>Integrating MCP (Model Context Protocol) servers for structured tool use and scalable agent orchestration.</li>
+    </ul>
+  </div>
+  <div class="commit">
+    <div class="sha"><span class="hash">allen-digital</span><span class="when">2024 — 2026</span></div>
+    <div class="msg">Staff Software Engineer · ALLEN Digital</div>
+    <ul>
+      <li>Scaled the test-taking platform to 2 lakh+ concurrent users within seconds of traffic spikes during peak exam windows.</li>
+      <li>Designed real-time and batch data pipelines over 2.5TB+ of MySQL data with PySpark and Apache Airflow.</li>
+      <li>Moved analytics from Redshift to ClickHouse OLAP. Mentored a team of 15.</li>
+    </ul>
+  </div>
+  <div class="commit">
+    <div class="sha"><span class="hash">udaan</span><span class="when">2020 — 2024</span></div>
+    <div class="msg">Architect · Udaan</div>
+    <ul>
+      <li>Built the Udaan Capital fintech platform: payments, lending and credit for millions of SMEs across India.</li>
+      <li>Built a payments-aggregator payout platform for real-time settlement, plus an async system for background jobs and payments at scale.</li>
+      <li>Split a 2TB+ database and its monolith into maintainable microservices.</li>
+    </ul>
+  </div>
+  <div class="commit">
+    <div class="sha"><span class="hash">jifflenow</span><span class="when">2015 — 2020</span></div>
+    <div class="msg">Principal Software Engineer · Jifflenow</div>
+    <ul>
+      <li>Took the core B2B meetings product from MVP to enterprise scale. It's used by 300+ Fortune 500 companies.</li>
+      <li>Built 15+ integrations (Salesforce, Marketo, Cvent) with transformation pipelines, and real-time push notifications in Node.js.</li>
+    </ul>
+  </div>
+  <div class="commit">
+    <div class="sha"><span class="hash">razorfish-neev</span><span class="when">2013 — 2015</span></div>
+    <div class="msg">Software Engineer · Razorfish Neev</div>
+    <ul>
+      <li>Shipped TUUL (B2C support platform) and Kanari (restaurant feedback for major Dubai restaurants) on Rails, Node.js and AngularJS.</li>
+    </ul>
+  </div>
+</div>
+```
 
+## Get in touch
 
-*Thanks for visiting!*
+Happy to talk about agentic systems, distributed architecture or anything I've written here.
+
+```{=html}
+<div class="btn-row" style="margin-top:16px">
+  <a class="btn-term" href="https://github.com/iamurali">github/iamurali</a>
+  <a class="btn-term" href="https://www.linkedin.com/in/muralikummitha">linkedin/muralikummitha</a>
+  <a class="btn-term" href="https://twitter.com/muralikummitha">x/muralikummitha</a>
+</div>
+```

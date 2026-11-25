@@ -1,0 +1,12 @@
+<div class="ls-list">
+<% for (const item of items) { %>
+  <a class="ls-row" href="<%- item.path %>" <%= metadataAttrs(item) %>>
+    <span class="ls-date"><%= item.date %></span>
+    <span class="ls-title"><%= item.title %></span>
+    <span class="ls-meta">
+      <% if (item.description) { %><span class="ls-desc"><%= item.description %></span><% } %>
+      <% if (item.categories) { %><span class="ls-tags"><%= item.categories.map(c => '#' + c).join(' ') %></span><% } %>
+    </span>
+  </a>
+<% } %>
+</div>

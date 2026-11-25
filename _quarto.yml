@@ -2,34 +2,40 @@ project:
   type: website
 
 website:
-  title: "Murali K | Engineer"
+  title: "~/muralik.in"
+  description: "Murali K — Staff Software Engineer. Notes on agentic systems, distributed systems and data platforms."
+  site-url: https://muralik.in
+  favicon: images/favicon.ico
   google-analytics: "G-96B2WQTTBR"
+  page-navigation: true
   navbar:
+    background: "#0b0f0e"
     right:
-      - about.qmd
-      - icon: github
+      - text: "./writing"
+        href: index.qmd#writing
+      - text: "./about"
+        href: about.qmd
+      - text: "github ↗"
         href: https://github.com/iamurali
-      - icon: twitter
-        href: https://twitter.com/muralikummitha
       - icon: linkedin
         href: https://www.linkedin.com/in/muralikummitha
+        aria-label: LinkedIn
+      - icon: twitter-x
+        href: https://twitter.com/muralikummitha
+        aria-label: X / Twitter
+  page-footer:
+    left: "© 2026 Murali K"
+    right: "exit 0"
   comments:
     giscus:
       repo: iamurali/iamurali.github.com
+      theme: transparent_dark
+
 format:
   html:
-    theme:
-      light: cosmo
-      dark: darkly
-    css: styles.css
-    include-in-header:
-      - text: |
-          <script>
-            if (window.localStorage.getItem("quarto-color-scheme") === null) {
-              window.localStorage.setItem("quarto-color-scheme", "alternate");
-            }
-          </script>
+    theme: [darkly, theme.scss]
+    highlight-style: github-dark
+    code-copy: true
+    smooth-scroll: true
+    toc-title: "// contents"
     comments: false
-
-
-

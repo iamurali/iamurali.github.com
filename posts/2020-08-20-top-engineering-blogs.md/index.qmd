@@ -1,16 +1,16 @@
 ---
-toc: true
-layout: post
 description: Top Engineering Blogs from Tech Companies to Follow
-permalink: /2020-08-20-top-engineering-blogs/
 image: /images/companies_thmubnail.png
 categories: [tech]
 title: Top Engineering Blogs from Tech Companies to Follow
+date: "2020-08-20"
 ---
 
 Here is a list of top engineering blogs from tech companies that's worth following.
 _(in alphabetical order)_
 
+
+::: {.blog-logos}
 - <img src = "/images/airbnb.png" width="21px" align="left"/> [  Airbnb Engineering & Data Science](https://medium.com/airbnb-engineering)
 - <img src="/images/bitly.png" width="21px" align="left"> [Bitly Engineering Blog](https://word.bitly.com/)
 - <img src="/images/dropbox.png" width="21px" align="left"> [Dropbox Tech Blog](https://dropboxtechblog.wordpress.com/)
@@ -43,5 +43,6 @@ _(in alphabetical order)_
 - <img src="/images/yahoo.png" width="21px" align="left"> [Yahoo Engineering](https://yahooeng.tumblr.com/)
 - <img src="/images/yelp.png" width="21px" align="left"> [Yelp Engineering Blog](https://engineeringblog.yelp.com/)
 - <img src="/images/youtube.png" width="21px" align="left"> [YouTube Engineering and Developers Blog](https://youtube-eng.googleblog.com/)
+:::
 
 Note: Inspired from tonyxu-io

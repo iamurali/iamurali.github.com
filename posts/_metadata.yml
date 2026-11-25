@@ -4,9 +4,11 @@
 # (see https://quarto.org/docs/projects/code-execution.html#freeze)
 freeze: auto
 
-# Enable banner style title blocks
-title-block-banner: true
+author: "Murali K"
+toc: true
+title-block-banner: false
 
 comments:
   giscus:
     repo: iamurali/iamurali.github.com
+    theme: transparent_dark

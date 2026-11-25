@@ -1,13 +1,10 @@
 ---
-toc: true
-layout: post
 description: Parse the erb template string and make use of binding to encapsulate the current context for parsing.
-permalink: /2020-08-15-dynamic-context-with-ruby/
 categories: [ruby, erb, yml, templating, rails, ROR]
 image: /images/erb-context.png
 title: "Template Rendering with Dynamic Context"
+date: "2020-08-15"
 ---
-# Template Rendering with Dynamic Context
 
 ## Problem Statement
 In one of projects when we had to build a service to generate history for a particular entity if there are changes occurs. we had to build a template engine which can translate the entity changes in humar redable format. 
