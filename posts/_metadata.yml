@@ -12,3 +12,4 @@ comments:
   giscus:
     repo: iamurali/iamurali.github.com
     theme: transparent_dark
+    reactions-enabled: false

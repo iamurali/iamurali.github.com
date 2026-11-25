@@ -28,8 +28,8 @@ $font-family-monospace: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, m
 $headings-font-family: $font-family-monospace;
 $headings-color: $term-bright;
 $headings-font-weight: 700;
-$font-size-root: 17px;
-$line-height-base: 1.7;
+$font-size-root: 16px;
+$line-height-base: 1.6;
 
 $navbar-bg: $term-bg;
 $navbar-fg: #9fb0a8;
@@ -288,13 +288,12 @@ a.ls-row {
 }
 
 main.content {
-  h2, h3, h4 { margin-top: 2.2rem; }
-  h2 { font-size: 1.55rem; border-bottom: 1px solid $term-line; padding-bottom: 0.4rem; }
+  h2, h3, h4 { margin-top: 2.4rem; margin-bottom: 0.7rem; }
+  h2 { font-size: 1.45rem; border-bottom: 1px solid $term-line; padding-bottom: 0.45rem; }
   h2::before { content: "## "; color: $term-green; }
   .home h2::before, .about-head h2::before { content: none; }
   .home h2 { border-bottom: 0; }
-  h3::before { content: "### "; color: $term-green; }
-  h3 { font-size: 1.2rem; }
+  h3 { font-size: 1.1rem; margin-top: 1.8rem; }
   p, li { color: $term-fg; }
   blockquote {
     border-left: 2px solid $term-green;
@@ -322,9 +321,11 @@ div.sourceCode pre, pre.sourceCode { background: transparent !important; }
 
 // ToC
 #TOC, nav#TOC {
-  font-family: $font-family-monospace;
+  font-family: $font-family-sans-serif;
   font-size: 0.8rem;
-  h2 { font-size: 0.8rem; color: $term-green; border: 0; }
+  line-height: 1.35;
+  h2 { font-family: $font-family-monospace; font-size: 0.75rem; color: $term-green; border: 0; }
+  .nav-link { padding-top: 0.2rem; padding-bottom: 0.2rem; }
   .nav-link { color: $term-muted; }
   .nav-link.active, .nav-link:hover { color: $term-green; border-left-color: $term-green; }
 }
@@ -402,3 +403,142 @@ div.sourceCode pre, pre.sourceCode { background: transparent !important; }
 
 // pages without a title (home) get no empty title block
 #title-block-header:not(:has(.title)) { display: none; }
+
+// tables, callouts, tabsets, mermaid in articles
+main.content table {
+  font-size: 0.92rem;
+  th { font-family: $font-family-monospace; font-size: 0.75rem; text-transform: lowercase; color: $term-muted; border-bottom: 1px solid $term-line-2; }
+  td { border-color: $term-line; }
+}
+.callout {
+  background: $term-panel !important;
+  border: 1px solid $term-line !important;
+  border-left: 3px solid $term-green !important;
+  border-radius: 8px;
+  .callout-title-container, h2 { font-family: $font-family-monospace; font-size: 0.95rem; border: 0; }
+  h2::before { content: "// "; }
+}
+.callout-warning { border-left-color: $term-amber !important; }
+.panel-tabset {
+  .nav-tabs { border-bottom: 1px solid $term-line; font-family: $font-family-monospace; font-size: 0.85rem; }
+  .nav-link { color: $term-muted; border: 0; }
+  .nav-link.active { color: $term-green; background: transparent; border-bottom: 2px solid $term-green; }
+  .tab-content { border: 1px solid $term-line; border-top: 0; padding: 16px 20px; background: $term-panel; border-radius: 0 0 8px 8px; }
+  h3::before { content: none; }
+}
+.cell-output-display .mermaid, pre.mermaid-js, div.mermaid {
+  background: $term-panel;
+  border: 1px solid $term-line;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+// animated canvas diagrams in posts
+figure.diagram {
+  margin: 2rem 0;
+  padding: 12px;
+  background: $term-panel;
+  border: 1px solid $term-line;
+  border-radius: 10px;
+  canvas { display: block; width: 100%; }
+  figcaption {
+    margin-top: 10px;
+    padding: 0 6px 4px;
+    font-size: 0.85rem;
+    color: $term-muted;
+    text-align: left;
+  }
+}
+
+// ---------- readable article typography
+// Long-form posts read in Inter; mono stays for accents, code and the title prompt.
+body.quarto-light, body.quarto-dark, body { -webkit-font-smoothing: antialiased; }
+main.content#quarto-document-content:not(:has(.home)) {
+  font-size: 1rem;
+  line-height: 1.65;
+  h2, h3, h4 {
+    font-family: $font-family-sans-serif;
+    font-weight: 650;
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+  }
+  h2::before { font-family: $font-family-monospace; font-weight: 500; font-size: 0.85em; }
+  p { margin-bottom: 0.9rem; }
+  ul, ol { padding-left: 1.3rem; margin-bottom: 1rem; }
+  li { margin-bottom: 0.3rem; }
+  li > p { margin-bottom: 0.3rem; }
+  strong { color: $term-bright; font-weight: 600; }
+  table { font-size: 0.88rem; line-height: 1.5; }
+}
+#title-block-header .title {
+  font-family: $font-family-sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+  letter-spacing: -0.025em;
+}
+#title-block-header .title::before { font-family: $font-family-monospace; }
+
+// wide figures can scroll sideways on small screens
+figure.diagram.wide { overflow-x: auto; }
+
+// use-case cards
+main.content .cases {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: 14px;
+  margin: 1rem 0 2rem;
+}
+main.content .case {
+  background: $term-panel;
+  border: 1px solid $term-line;
+  border-radius: 10px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  line-height: 1.5;
+  h3 { margin: 2px 0 0 !important; font-size: 1.02rem; line-height: 1.3; color: $term-bright; }
+  p { margin: 0 !important; font-size: 0.9rem; color: $term-soft; }
+  ul { margin: 2px 0 0 !important; padding-left: 1.05rem; font-size: 0.86rem; }
+  li { color: $term-soft; margin-bottom: 0.3rem; }
+  li:last-child { margin-bottom: 0; }
+  code { font-size: 0.8em; }
+}
+main.content .case-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: $font-family-monospace;
+  font-size: 0.7rem;
+  line-height: 1;
+}
+main.content .case-kind { color: $term-muted; }
+main.content .case-status {
+  display: inline-block;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-weight: 700;
+  color: $term-bg;
+  &.is-live { background: $term-green; }
+  &.is-wip { background: $term-amber; }
+  &.is-next { background: $term-blue; }
+}
+
+main.content .case .case-note { font-size: 0.84rem; color: $term-muted; }
+main.content .case .case-note b { color: $term-fg; }
+
+// giscus comments: keep them in the text column, terminal-style header
+#quarto-content > .giscus {
+  grid-column: body-content-start / body-content-end;
+  margin: 3rem 0 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid $term-line;
+}
+#quarto-content > .giscus::before {
+  content: "$ ./comments";
+  display: block;
+  margin-bottom: 1rem;
+  font-family: $font-family-monospace;
+  font-size: 0.85rem;
+  color: $term-green;
+}

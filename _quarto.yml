@@ -30,11 +30,14 @@ website:
     giscus:
       repo: iamurali/iamurali.github.com
       theme: transparent_dark
+      reactions-enabled: false
 
 format:
   html:
     theme: [darkly, theme.scss]
     highlight-style: github-dark
+    mermaid:
+      theme: dark
     code-copy: true
     smooth-scroll: true
     toc-title: "// contents"

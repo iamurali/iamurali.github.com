@@ -1,0 +1,217 @@
+---
+title: "Upgrades on autopilot"
+description: "A simple loop that finds out-of-date services, has an AI agent fix them, and only calls it done when a human merges the pull request."
+date: "2026-11-25"
+categories: [agents, mcp, platform-engineering]
+draft: false
+resources:
+  - diagrams.js
+include-after-body:
+  text: |
+    <script src="diagrams.js"></script>
+---
+
+You've probably seen this message: *"Please upgrade to the new version of the framework by the end of the quarter."* It goes out to hundreds of teams. Some do it. Some put it off. Some never see it. Next quarter, the same message goes out again.
+
+No single upgrade is hard. What's hard is doing it **hundreds of times**, across teams who all have something more important to work on. Work that is repetitive, well defined and easy to check is a good job for an AI agent.
+
+The catch: you don't want an agent loose in hundreds of repos. You want it inside a system that is predictable everywhere except the one step that needs a bit of judgement. Here's how we built that.
+
+## The whole idea in one picture
+
+```{=html}
+<figure class="diagram">
+  <canvas data-diagram="loop" role="img" aria-label="A loop of three steps: find out-of-date repos, fix them with an AI agent and a playbook, then review and merge the pull request. Then it starts again."></canvas>
+  <figcaption>Three steps that repeat on their own. AI does the fixing in step 2, and helps in step 1 only when a script can't answer.</figcaption>
+</figure>
+```
+
+1. **Find** which services are out of date.
+2. **Fix** each one with an AI agent that follows a written playbook.
+3. **Review and merge.** The owner reviews the pull request, and the finding closes only when it's merged.
+
+Then it runs again, so anything new that falls behind gets picked up.
+
+## Step 1 · Find what's out of date, across the whole fleet
+
+It starts with a **policy**: one document that says what "good" looks like. Policies are stored as documents in a database (we use MongoDB), so starting a new upgrade campaign means adding a document, not writing a new service. Here's a simplified one:
+
+```json
+{
+  "id": "framework-v4",
+  "appliesTo": {
+    "source": "inventory-db",
+    "filter": { "language": "java" },
+    "schedule": "every 4h"
+  },
+  "observed": {
+    "mode": "repo-detection",
+    "detector": "detectors/framework-version"
+  },
+  "desired": { "framework.major": 4 },
+  "checks": [
+    { "name": "on-supported-major",
+      "cel": "observed.framework.major >= desired.framework.major" }
+  ],
+  "remediation": { "skill": "upgrade-framework", "maxAttempts": 3 }
+}
+```
+
+Then the system has to answer one question for *every* service: **does it pass the rule?** There's no single place that knows everything about every service, so the scan pulls facts from wherever they already live:
+
+```{=html}
+<figure class="diagram">
+  <canvas data-diagram="scan" role="img" aria-label="Four sources feed facts into a rule check: the inventory database, the data lake, SBOMs from the artifact repository, and GitHub Actions jobs that can run any detector, from a shell script to a headless AI agent. The rule check then marks each service in the fleet as passing or behind."></canvas>
+  <figcaption>Facts come in from four places, get checked against the rule, and every service that fails becomes a <em>finding</em>.</figcaption>
+</figure>
+```
+
+| Source | What it tells us | How we read it |
+|---|---|---|
+| **Inventory database** | Which services exist, which repo each lives in, who owns it | Simple lookups to decide which services a rule applies to |
+| **Data lake** | Build, deploy and runtime data across the company | A SQL query, run in bulk on a schedule |
+| **SBOMs** (from the artifact repository) | Exactly which libraries and versions are inside each built artifact | Read in bulk. This is often the most accurate answer to "what version is it really running?" |
+| **GitHub Actions** | Anything you can only learn by looking at the code | A job clones the repo read-only and runs a **detector**, which can be anything: a shell or Python script, an API call, or a headless coding agent like Claude Code |
+
+### The policy decides how to scan
+
+There's no single best source. Each policy says where *its* facts come from, using two fields:
+
+- **`appliesTo`** says which services are in scope. That can be a lookup in the inventory database, a query against the data lake, or a fixed list for a pilot.
+- **`observed.mode`** says how to collect the facts to check:
+  - **realtime**: the data is already there (say, in the inventory database), so the check runs right away.
+  - **batch**: facts are loaded in bulk on a schedule, like SBOM data from the artifact repository or a data lake export.
+  - **repo-detection**: a GitHub Actions job clones each repo and runs the detector. That might be a shell or Python script, an API call, or a headless coding agent like Claude Code when the question needs judgement (*"does this service still use the old login pattern?"*).
+
+The check itself is a short [CEL](https://cel.dev/) expression: simple, safe, and readable by anyone. Changing how a policy scans means editing the document, not the code.
+
+### Scanning thousands of repos without breaking anything
+
+- **A few at a time.** Repo inspections run in small batches: a handful per rule and a fixed number across the whole system. If a new rule matches 2,000 repos, they're scanned in batches instead of flooding GitHub Actions.
+- **Report back, even on failure.** Every job sends its result to the central service, retrying if that call fails. A job that fails also reports that it failed, so nothing silently waits forever.
+- **One place keeps track.** A single service owns the rules, the findings and the fixes. GitHub Actions jobs, queries and skills just do their piece and report back. They never decide what to scan next.
+
+When every service has been checked, the rule runs against the collected facts. Services that fail become **findings**, and findings that now pass are closed automatically.
+
+## Step 2 · Let an agent fix it, with a playbook
+
+Each finding is handed to an AI agent along with the name of a **playbook**. A playbook is a short, written set of instructions for one kind of fix, like the runbook you'd give a new teammate.
+
+```{=html}
+<figure class="diagram">
+  <canvas data-diagram="fix" role="img" aria-label="A finding for service 17 goes to the agent. The agent asks which playbook fits, fetches only the upgrade-framework playbook, edits the code, checks the build and tests, then opens pull request 128."></canvas>
+  <figcaption>The agent asks which playbook fits, reads only that one, makes the change, checks its own work and opens a pull request.</figcaption>
+</figure>
+```
+
+The agent doesn't get every playbook at once. First it asks *"which playbook fits this problem?"*, then it reads only that one. That keeps it focused, and it's the same reason you'd hand someone one runbook page instead of the whole wiki.
+
+Here's what a playbook looks like (simplified):
+
+```markdown
+# upgrade-framework
+
+1. Change the framework version from 3 to 4.
+2. Run the migration script to rename old config keys.
+3. Fix any compile errors.
+4. Don't change business logic. If the fix needs that, stop and ask a human.
+
+Check before you finish: the build passes, the tests pass, the version is 4.
+```
+
+Line 4 is the most important one. **A good playbook tells the agent when to give up.** An agent that says "this one needs a human" is far more useful than one that "fixes" a failing test by deleting it.
+
+### Under the hood: where the agent actually runs
+
+Three pieces make a fix happen, and none of them is the orchestrator:
+
+```{=html}
+<figure class="diagram">
+  <canvas data-diagram="platform" role="img" aria-label="The orchestrator starts a run on the agent platform. Inside, a headless Claude session asks the skill server over MCP which skill fits, fetches the upgrade-framework skill, follows it, runs the build and tests, opens pull request 128 on the git host, and validates it in an ephemeral environment that is spun up, tested and torn down. The result goes back to the orchestrator."></canvas>
+  <figcaption>The orchestrator only says "fix this with this skill". The agent platform does the work, the skill server supplies the instructions, and an ephemeral environment proves the change works.</figcaption>
+</figure>
+```
+
+- **The skill server (over MCP).** Skills live on a small server that speaks [MCP](https://modelcontextprotocol.io/) (Model Context Protocol), an open standard for giving AI agents tools. It offers just two tools: *resolve* ("which skill fits this finding?") and *fetch* ("give me that skill"). Any agent can use the same skills, and updating a skill never means touching the agent.
+- **The agent platform.** Each run gets its own isolated, headless Claude session with only the tools it needs: the repo, the skill server and the build. It follows the skill, runs the build and tests, and opens the pull request. When it's done, the session is gone.
+- **An ephemeral environment.** Before any human looks at the pull request, its branch is deployed to a short-lived environment, checked there, and then torn down. The owner gets a pull request that has already been proven to run, not just compile.
+
+## Step 3 · Review and merge
+
+Opening a pull request isn't success. A **merged** pull request is.
+
+```{=html}
+<figure class="diagram">
+  <canvas data-diagram="done" role="img" aria-label="A pull request moves through four stages: opened by the agent, checks pass, the owner approves, merged. When it merges, the finding for service 17 changes from OPEN to FIXED."></canvas>
+  <figcaption>The agent never merges its own work. The service owner does. Only then does the finding close.</figcaption>
+</figure>
+```
+
+Every change has already passed in its own ephemeral environment before anyone is asked to review it. The service owner reviews it like any other pull request. The only difference is that they didn't have to write it.
+
+Once an hour, the system checks which pull requests have merged and closes their findings. It also tracks *who* fixed each one, the agent or a person, so the numbers stay honest.
+
+## The safety rails
+
+These aren't exciting, but each one has saved us at least once:
+
+- **One fix at a time.** A service never has two agent pull requests open for the same problem.
+- **Give up after a few tries.** If a playbook can't fix a repo in three attempts, a human takes over.
+- **Time limits.** Jobs that hang get cleaned up automatically.
+- **Write down which playbook made each change.** If a playbook turns out to be wrong, you can find every pull request it touched.
+
+## The whole system on one page
+
+Here's everything together: the three journeys, *find*, *fix* and *close*, playing one after another on the same map. The orchestrator in the middle is the only part that remembers anything. Everything around it does one job and reports back.
+
+```{=html}
+<figure class="diagram wide column-page">
+  <canvas data-diagram="arch" data-minw="760" role="img" aria-label="The whole architecture. Find: the scheduler and policy documents drive the orchestrator, which dispatches GitHub Actions detectors loaded from the content repo; they read the service repos and call back, while the inventory, data lake and SBOMs provide facts. Fix: the orchestrator starts a run on the agent platform, whose headless Claude session gets skills from the skill server over MCP, synced from the content repo, opens a pull request on the git host and validates it in an ephemeral environment. Close: the service owner reviews and merges the pull request, and the hourly close sweep marks the finding fixed."></canvas>
+  <figcaption>Blue: finding what's behind. Green: fixing it. Amber: closing the loop. AI runs in the agent platform, and in detectors that need judgement. Only a human merges.</figcaption>
+</figure>
+```
+
+## Upgrades we've run through it
+
+Each of these is just a policy and a skill. The rest of the system is the same every time.
+
+```{=html}
+<div class="cases">
+  <article class="case">
+    <div class="case-head"><span class="case-status is-live">live</span><span class="case-kind">framework</span></div>
+    <h3>Java framework minor + patch upgrades</h3>
+    <p>A minimum version per major line. SBOM data shows who's behind, so no repo scan is needed.</p>
+    <p class="case-note"><b>Learned:</b> "already up to date" is a valid result, not an empty PR.</p>
+  </article>
+  <article class="case">
+    <div class="case-head"><span class="case-status is-wip">in progress</span><span class="case-kind">base image</span></div>
+    <h3>Amazon Linux 2 → AL2023</h3>
+    <p>Swap the base image in both the code repo and the deployment repo, each validated separately.</p>
+    <p class="case-note"><b>Learned:</b> keep validation as a hard gate, even when owners ask to merge anyway.</p>
+  </article>
+  <article class="case">
+    <div class="case-head"><span class="case-status is-wip">pilot</span><span class="case-kind">base image</span></div>
+    <h3>Debian 11 → 13</h3>
+    <p>Reused the existing end-of-life detector, so it only needed a new policy and skill. Rolling out in waves.</p>
+    <p class="case-note"><b>Learned:</b> simpler skills fail less and are easier to review.</p>
+  </article>
+  <article class="case">
+    <div class="case-head"><span class="case-status is-next">next</span><span class="case-kind">library swap</span></div>
+    <h3>AWS SDK v1 → v2</h3>
+    <p>A replacement, not a bump: "desired" says use this library instead of that one.</p>
+    <p class="case-note"><b>Why it's harder:</b> bigger code changes, so stop rules and validation matter most.</p>
+  </article>
+</div>
+```
+
+## What an upgrade looks like today
+
+Rolling out an upgrade across the fleet used to mean tickets for hundreds of teams, a tracking spreadsheet, reminder emails and weeks of follow-up. Now it's three things:
+
+1. **One policy.** A document that says what "good" looks like and how to check it.
+2. **One skill.** A playbook that says how to fix it, often reused from a previous campaign.
+3. **One click.** Turn the policy on, or let its schedule pick it up.
+
+From there the system scans the fleet, opens a pull request for every service that's behind, proves each one in an ephemeral environment, and closes each finding when its owner merges.
+
+For the services it covers, that has cut manual upgrade work by about **90%** and the time to get a service up to date by about **75%**. The conversation has changed too. It used to be *"please do this upgrade"*. Now it's *"there's a pull request waiting for your review"*.
