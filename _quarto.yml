@@ -1,5 +1,6 @@
 project:
   type: website
+  post-render: sitemap.py
   resources:
     - llms.txt
     - images/icon-*.png
