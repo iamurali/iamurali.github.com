@@ -539,7 +539,9 @@
       const k = st.k * st.dpr;
       ctx.setTransform(k, 0, 0, k, 0, 0);
       ctx.clearRect(0, 0, d.W, d.H);
-      const p = reduce ? d.still : ((now - st.start) % d.period) / d.period;
+      // rAF timestamps can be slightly older than st.start, so keep the phase in [0, 1)
+      const el = Math.max(0, now - st.start);
+      const p = reduce ? d.still : (el % d.period) / d.period;
       d.draw(ctx, p);
     }
     new ResizeObserver(size).observe(canvas.parentElement);
