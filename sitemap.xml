@@ -2,26 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://muralik.in/index.html</loc>
-    <lastmod>2026-11-25T11:14:29.559Z</lastmod>
+    <lastmod>2026-11-25T12:40:54.459Z</lastmod>
   </url>
   <url>
     <loc>https://muralik.in/posts/2020-09-15-rails-postgres-views.md/index.html</loc>
-    <lastmod>2026-11-25T11:14:29.560Z</lastmod>
+    <lastmod>2026-11-25T12:40:54.461Z</lastmod>
   </url>
   <url>
     <loc>https://muralik.in/posts/20-08-15-dynamic-context-with-ruby/index.html</loc>
-    <lastmod>2026-11-25T11:14:29.560Z</lastmod>
+    <lastmod>2026-11-25T12:40:54.461Z</lastmod>
   </url>
   <url>
     <loc>https://muralik.in/posts/2020-08-20-top-engineering-blogs.md/index.html</loc>
-    <lastmod>2026-11-25T11:14:29.560Z</lastmod>
+    <lastmod>2026-11-25T12:40:54.461Z</lastmod>
+  </url>
+  <url>
+    <loc>https://muralik.in/posts/2026-11-25-agentic-upgrades/index.html</loc>
+    <lastmod>2026-11-25T12:40:54.461Z</lastmod>
   </url>
   <url>
     <loc>https://muralik.in/posts/2020-08-17-multiple-mysql-versions.md/index.html</loc>
-    <lastmod>2026-11-25T11:14:29.560Z</lastmod>
+    <lastmod>2026-11-25T12:40:54.461Z</lastmod>
   </url>
   <url>
     <loc>https://muralik.in/about.html</loc>
-    <lastmod>2026-11-25T11:14:29.552Z</lastmod>
+    <lastmod>2026-11-25T12:40:54.453Z</lastmod>
   </url>
 </urlset>
